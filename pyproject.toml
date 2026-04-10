@@ -55,7 +55,8 @@ graphify = "graphify.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["graphify*"]
+include = ["graphify*", "tree_sitter_sfapex*"]
 
 [tool.setuptools.package-data]
 graphify = ["skill.md", "skill-codex.md", "skill-opencode.md", "skill-aider.md", "skill-copilot.md", "skill-claw.md", "skill-windows.md", "skill-droid.md", "skill-trae.md"]
+tree_sitter_sfapex = ["apex.so"]
