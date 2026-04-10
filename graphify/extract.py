@@ -1106,6 +1106,25 @@ def extract_java(path: Path) -> dict:
     return _extract_generic(path, _JAVA_CONFIG)
 
 
+# ── Apex (Salesforce) ────────────────────────────────────────────────────────
+
+_APEX_CONFIG = LanguageConfig(
+    ts_module="tree_sitter_sfapex",
+    class_types=frozenset({"class_declaration", "interface_declaration", "enum_declaration", "trigger_declaration"}),
+    function_types=frozenset({"method_declaration", "constructor_declaration"}),
+    import_types=frozenset(),  # Apex has no imports — uses namespace-level access
+    call_types=frozenset({"method_invocation"}),
+    call_function_field="name",
+    call_accessor_node_types=frozenset(),
+    function_boundary_types=frozenset({"method_declaration", "constructor_declaration"}),
+)
+
+
+def extract_apex(path: Path) -> dict:
+    """Extract classes, triggers, methods, and relationships from a Salesforce Apex .cls/.trigger file."""
+    return _extract_generic(path, _APEX_CONFIG)
+
+
 def extract_c(path: Path) -> dict:
     """Extract functions and includes from a .c/.h file."""
     return _extract_generic(path, _C_CONFIG)
@@ -2622,6 +2641,9 @@ def extract(paths: list[Path]) -> dict:
         ".m": extract_objc,
         ".mm": extract_objc,
         ".jl": extract_julia,
+        ".cls": extract_apex,
+        ".trigger": extract_apex,
+        ".apex": extract_apex,
     }
 
     total = len(paths)
